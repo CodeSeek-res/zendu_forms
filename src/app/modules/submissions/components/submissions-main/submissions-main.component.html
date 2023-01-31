@@ -1,1 +1,56 @@
-<p>submissions-main works!</p>
+<div class="wrapper">
+  <div class="wrapper__header">
+    <h1 class="wrapper__header__title">Submissions</h1>
+
+    <div class="wrapper__header__actions">
+      <div class="filter">
+        <mat-form-field class="filter__search" appearance="outline">
+          <input matInput placeholder="Search.." />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Select Form</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let form of forms" [value]="form.value">
+              {{ form.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Select Status</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let status of statuses" [value]="status.value">
+              {{ status.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="action">
+        <div>
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle value="map">Map</mat-button-toggle>
+            <mat-button-toggle value="list">List</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+        <div class="import-button">
+          <a (click)="importFile()">
+            <mat-icon>insert_drive_file</mat-icon>
+            Export
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper__content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

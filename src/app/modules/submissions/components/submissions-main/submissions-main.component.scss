@@ -1,0 +1,51 @@
+.wrapper {
+  padding: 25px 40px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+
+    &__title {
+      font-size: 32px;
+      font-weight: 500;
+    }
+
+    &__actions {
+      flex: 100px;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .filter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex: 1 2 auto;
+
+      &__search {
+        width: 335px;
+      }
+    }
+
+    .action {
+      padding: 5px 0;
+      display: flex;
+      justify-content: space-evenly;
+      flex: 3 0 auto;
+
+      .import-button {
+        cursor: pointer;
+        color: #2188D9;
+        padding-top: 5px;
+        mat-icon {
+          position: relative;
+          top: 7px;
+        }
+      }
+    }
+  }
+
+  &__content {
+
+  }
+}

@@ -1,0 +1,54 @@
+.main {
+  display: flex;
+  flex-direction: column;
+
+
+  &__table {
+
+    table {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+
+      tr.mat-header-row {
+        height: 47px;
+      }
+
+      .mat-column-select{
+        ::ng-deep .mat-checkbox-inner-container {
+          width: 20px !important;
+          height: 20px !important;;
+        }
+      }
+
+      .status{
+        border-width: 1px;
+        border-radius: 5px;
+        border-style: solid;
+        padding: 5px 10px;
+      }
+
+      .status:before {
+        content: '• ';
+        font-size: x-large;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.red-status {
+  color: #FF3D00;
+  background-color: #FF3D0038;
+}
+
+.green-status {
+  color: #53D86A;
+  background-color: #53d86a38;
+}
+
+.gray-status {
+  color: #B8B9BC;
+  background-color: #B8B9BC38;
+
+}
