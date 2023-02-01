@@ -16,6 +16,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [NavBarComponent],
@@ -35,7 +37,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatNativeDateModule,
     MatButtonToggleModule,
     MatTableModule,
+    MatPaginatorModule,
     MatCheckboxModule,
+    NgxPaginationModule,
   ],
   exports: [
     AngularMaterialModule,
@@ -52,7 +56,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatNativeDateModule,
     MatButtonToggleModule,
     MatTableModule,
+    MatPaginatorModule,
     MatCheckboxModule,
+    NgxPaginationModule,
   ],
 })
 export class SharedModule {}

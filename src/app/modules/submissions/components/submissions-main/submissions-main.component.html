@@ -38,9 +38,15 @@
 
       <div class="action">
         <div>
-          <mat-button-toggle-group class="button-toggle" name="fontStyle" aria-label="Font Style">
+          <mat-button-toggle-group
+            (change)="redirect($event)"
+            [(value)]="selectedActiveButtonNavigate"
+            class="button-toggle"
+            name="fontStyle"
+            aria-label="Font Style"
+          >
             <mat-button-toggle value="map">Map</mat-button-toggle>
-            <mat-button-toggle value="list">List</mat-button-toggle>
+            <mat-button-toggle value="table">List</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
 

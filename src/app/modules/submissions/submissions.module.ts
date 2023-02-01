@@ -4,9 +4,10 @@ import { SubmissionsTableComponent } from './components/submissions-table/submis
 import { SubmissionsRoutingModule } from './submissions-routing.module';
 import { SubmissionsMainComponent } from './components/submissions-main/submissions-main.component';
 import { SharedModule } from '../../shared/shared.module';
+import { SubmissionsMapComponent } from './components/submissions-map/submissions-map.component';
 
 @NgModule({
-  declarations: [SubmissionsTableComponent, SubmissionsMainComponent],
+  declarations: [SubmissionsTableComponent, SubmissionsMainComponent, SubmissionsMapComponent],
   imports: [CommonModule, SubmissionsRoutingModule, SharedModule],
 })
 export class SubmissionsModule {}

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface Select {
   value: string;
@@ -23,9 +25,17 @@ export class SubmissionsMainComponent implements OnInit {
     { viewValue: 'Unassigned', value: 'unassigned' },
   ];
 
-  constructor() {}
+  public selectedActiveButtonNavigate: string | undefined = '';
 
-  ngOnInit(): void {}
+  constructor(private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {}
 
-  importFile() {}
+  public ngOnInit(): void {
+    this.selectedActiveButtonNavigate = this.activatedRoute.snapshot.firstChild?.routeConfig?.path;
+  }
+
+  public importFile(): void {}
+
+  public redirect(event: MatButtonToggleChange): void {
+    this.router.navigate([`submissions/main/${event.value}`]);
+  }
 }
