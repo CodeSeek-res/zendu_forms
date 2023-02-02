@@ -1152,15 +1152,6 @@ const ELEMENT_DATA: TableElements[] = [
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
   },
-  {
-    select: '',
-    task: 'test name',
-    status: '1',
-    from: 'asdasda@gmail.com',
-    to: 'asdasdasdad@mail.com',
-    customerAddress: 'adasdasdas',
-    dueDate: new Date(),
-  },
 ];
 
 @Component({
@@ -1178,7 +1169,9 @@ export class SubmissionsTableComponent {
   public pageIndex = 1;
 
   public paginate(event: number): void {
-    this.pageIndex = event;
+    if (event !== 0 && event !== Math.ceil(this.dataSource.length / this.pageSize + 1)) {
+      this.pageIndex = event;
+    }
   }
 
   public isAllSelected(): boolean {

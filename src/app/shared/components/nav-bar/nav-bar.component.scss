@@ -49,6 +49,6 @@
   background-color: #1773BB;
 }
 
-.mat-list-item:hover, .mat-list-item:focus {
-  background-color: #2188d9;
+.mat-nav-list, .mat-nav-list .mat-list-item:focus  {
+  background-color: transparent !important;
 }
