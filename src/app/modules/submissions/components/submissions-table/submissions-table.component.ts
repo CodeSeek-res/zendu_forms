@@ -1459,7 +1459,7 @@ export class SubmissionsTableComponent implements OnInit, OnDestroy {
   }
 
   public paginate(event: number): void {
-    if (event !== 0 && event !== Math.ceil(this.dataSource.length / this.pageSize + 1)) {
+    if (event !== 0 && event !== Math.ceil(this.dataSourceCopy.length / this.pageSize + 1)) {
       this.pageIndex = event;
     }
   }
