@@ -4,7 +4,9 @@
       mat-table
       [dataSource]="
         dataSource
-          | paginate : { itemsPerPage: pageSize, currentPage: pageIndex, totalItems: dataSource.length, id: 'custom' }
+          | searchByName : searchValue
+          | paginate
+            : { itemsPerPage: pageSize, currentPage: pageIndex, totalItems: dataSourceCopy.length, id: 'custom' }
       "
       class="mat-elevation-z8"
     >

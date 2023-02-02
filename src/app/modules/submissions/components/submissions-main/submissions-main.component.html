@@ -3,9 +3,9 @@
     <h1 class="wrapper__header__title">Submissions</h1>
 
     <div class="wrapper__header__actions">
-      <div class="filter">
+      <form [formGroup]="filterForms" class="filter">
         <mat-form-field class="filter__search" appearance="outline">
-          <input matInput placeholder="Search.." />
+          <input matInput placeholder="Search.." formControlName="searchField" />
           <button class="prefix-btn" mat-button matPrefix mat-icon-button>
             <mat-icon>search</mat-icon>
           </button>
@@ -22,7 +22,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Select Status</mat-label>
-          <mat-select>
+          <mat-select formControlName="selectStatus">
             <mat-option *ngFor="let status of statuses" [value]="status.value">
               {{ status.viewValue }}
             </mat-option>
@@ -30,11 +30,11 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <input matInput [matDatepicker]="picker" />
+          <input matInput [matDatepicker]="picker" formControlName="datePicker" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-      </div>
+      </form>
 
       <div class="action">
         <div>
@@ -51,7 +51,8 @@
         </div>
 
         <div class="import-button">
-          <a (click)="importFile()">
+          <input hidden #file type="file" accept=".csv" (change)="exportFile($event)" />
+          <a (click)="file.click()">
             <mat-icon>insert_drive_file</mat-icon>
             Export
           </a>

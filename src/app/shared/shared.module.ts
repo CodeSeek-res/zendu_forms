@@ -17,6 +17,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatCardModule } from '@angular/material/card';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [NavBarComponent],
@@ -38,6 +40,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatPaginatorModule,
     MatCheckboxModule,
     NgxPaginationModule,
+    MatCardModule,
+    GoogleMapsModule,
   ],
   exports: [
     NavBarComponent,
@@ -56,6 +60,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatPaginatorModule,
     MatCheckboxModule,
     NgxPaginationModule,
+    MatCardModule,
+    GoogleMapsModule,
   ],
 })
 export class SharedModule {}

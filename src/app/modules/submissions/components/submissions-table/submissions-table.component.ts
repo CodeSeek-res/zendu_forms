@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
+import { DataForm, SubmissionsServices } from '../../services/submissions.services';
+import { Subject, takeUntil } from 'rxjs';
+import { SearchByNamePipe } from '../../../../shared/pipes/search-by-string.pipe';
 
-enum Status {
+export enum Status {
   LOW = 'low',
   UNCOMPLETE = 'uncomplete',
   UNASSIGNED = 'unassigned',
 }
 
-interface TableElements {
+export interface TableElements {
   select: string;
   task: string;
   status: string;
@@ -15,17 +18,21 @@ interface TableElements {
   to: string;
   customerAddress: string;
   dueDate: Date;
+  lat?: number;
+  lng?: number;
 }
 
-const ELEMENT_DATA: TableElements[] = [
+export const ELEMENT_DATA: TableElements[] = [
   {
     select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    task: 'test name',
+    status: 'unassigned',
+    from: 'asdasda@gmail.com',
+    to: 'asdasdasdad@mail.com',
+    customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.829037425805936,
+    lng: 24.008831696405327,
   },
   {
     select: '',
@@ -35,6 +42,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 51.24204949346785,
+    lng: 25.800123784879496,
   },
   {
     select: '',
@@ -44,6 +53,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 52.24204949346785,
+    lng: 26.800123784879496,
   },
   {
     select: '',
@@ -53,6 +64,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.82776670359368,
+    lng: 24.008627539658494,
   },
   {
     select: '',
@@ -62,6 +75,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.83218243580211,
+    lng: 24.01931316788585,
   },
   {
     select: '',
@@ -71,6 +86,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.82852063768656,
+    lng: 24.029442253241204,
   },
   {
     select: '',
@@ -80,6 +97,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.827192269827925,
+    lng: 24.01931316815069,
   },
   {
     select: '',
@@ -89,6 +108,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -98,6 +119,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -107,6 +130,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -116,6 +141,19 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -125,6 +163,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -134,6 +174,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -143,6 +185,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -152,6 +196,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -161,6 +207,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -170,6 +218,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -179,6 +229,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -188,6 +240,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -197,6 +251,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -206,6 +262,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -215,6 +273,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -224,114 +284,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'test name',
-    status: 'unassigned',
-    from: 'asdasda@gmail.com',
-    to: 'asdasdasdad@mail.com',
-    customerAddress: 'adasdasdas',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -341,6 +295,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -350,6 +306,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -359,6 +317,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -368,6 +328,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -377,6 +339,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -386,6 +350,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -395,6 +361,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -404,6 +372,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -413,6 +383,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -422,6 +394,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -431,6 +405,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -440,114 +416,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'test name',
-    status: 'unassigned',
-    from: 'asdasda@gmail.com',
-    to: 'asdasdasdad@mail.com',
-    customerAddress: 'adasdasdas',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
-  },
-  {
-    select: '',
-    task: 'Work Flow: Requires Location',
-    status: 'low',
-    from: 'zendu@zendu.com',
-    to: 'tracy@zenduit.com',
-    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
-    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -557,6 +427,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -566,6 +438,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -575,6 +449,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -584,6 +460,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -593,6 +471,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -602,6 +482,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -611,6 +493,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -620,6 +504,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -629,6 +515,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -638,6 +526,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -647,6 +537,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -656,6 +548,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -665,6 +559,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -674,6 +570,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -683,6 +581,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -692,6 +592,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -701,6 +603,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -710,6 +614,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -719,6 +625,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -728,6 +636,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -737,6 +647,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -746,6 +658,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -755,6 +669,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -764,6 +680,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -773,6 +691,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -782,6 +702,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -791,6 +713,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -800,6 +724,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -809,6 +735,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -818,6 +746,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -827,6 +757,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -836,6 +768,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -845,6 +779,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -854,6 +790,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -863,6 +801,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -872,6 +812,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -881,6 +823,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -890,6 +834,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -899,6 +845,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -908,6 +856,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -917,6 +867,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -926,6 +878,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -935,6 +889,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -944,6 +900,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -953,6 +911,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -962,6 +922,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -971,6 +933,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -980,6 +944,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -989,6 +955,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -998,6 +966,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1007,6 +977,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1016,6 +988,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1025,6 +999,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1034,6 +1010,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1043,6 +1021,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1052,6 +1032,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1061,6 +1043,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1070,6 +1054,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1079,6 +1065,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1088,6 +1076,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'tracy@zenduit.com',
     customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1097,6 +1087,272 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'test name',
+    status: 'unassigned',
+    from: 'asdasda@gmail.com',
+    to: 'asdasdasdad@mail.com',
+    customerAddress: 'adasdasdas',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'Work Flow: Requires Location',
+    status: 'low',
+    from: 'zendu@zendu.com',
+    to: 'tracy@zenduit.com',
+    customerAddress: '2118 Thornridge Cir. Syracuse, Connecticut 35624',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
+  },
+  {
+    select: '',
+    task: 'test name',
+    status: 'unassigned',
+    from: 'asdasda@gmail.com',
+    to: 'asdasdasdad@mail.com',
+    customerAddress: 'adasdasdas',
+    dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1106,6 +1362,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1115,6 +1373,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1124,6 +1384,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1133,6 +1395,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1142,6 +1406,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
   {
     select: '',
@@ -1151,6 +1417,8 @@ const ELEMENT_DATA: TableElements[] = [
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
     dueDate: new Date(),
+    lat: 49.823452269827925,
+    lng: 24.01951316815069,
   },
 ];
 
@@ -1159,14 +1427,36 @@ const ELEMENT_DATA: TableElements[] = [
   templateUrl: './submissions-table.component.html',
   styleUrls: ['./submissions-table.component.scss'],
 })
-export class SubmissionsTableComponent {
+export class SubmissionsTableComponent implements OnInit, OnDestroy {
+  public searchValue: DataForm;
+  private destroy$ = new Subject();
+
   public displayedColumns: string[] = ['select', 'task', 'status', 'from', 'to', 'customerAddress', 'dueDate'];
   public dataSource = ELEMENT_DATA;
+  public dataSourceCopy = ELEMENT_DATA;
   public selection = new SelectionModel<TableElements>(true, []);
 
   public statusEnum = Status;
   public pageSize = 9;
   public pageIndex = 1;
+
+  constructor(
+    private readonly submissionsServices: SubmissionsServices,
+    private readonly searchByNamePipe: SearchByNamePipe
+  ) {}
+
+  public ngOnInit(): void {
+    this.submissionsServices.dataFromForm.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      this.searchValue = data;
+
+      this.dataSourceCopy = this.searchByNamePipe.transform(this.dataSource, this.searchValue);
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 
   public paginate(event: number): void {
     if (event !== 0 && event !== Math.ceil(this.dataSource.length / this.pageSize + 1)) {
