@@ -1,23 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MockBuilder, MockInstance, MockRender } from 'ng-mocks';
+import { SubmissionsModule } from '../../submissions.module';
 import { SubmissionsMapComponent } from './submissions-map.component';
+import { SearchData, SubmissionsServices } from '../../services/submissions.services';
+import { BehaviorSubject } from 'rxjs';
 
 describe('SubmissionsMapComponent', () => {
-  let component: SubmissionsMapComponent;
-  let fixture: ComponentFixture<SubmissionsMapComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SubmissionsMapComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(SubmissionsMapComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    return MockBuilder([SubmissionsMapComponent], [SubmissionsModule]);
   });
+  MockInstance(SubmissionsServices, 'dataFromForm', new BehaviorSubject<SearchData>(null));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should render', () => {
+    expect(() => MockRender(SubmissionsMapComponent)).not.toThrow();
   });
 });

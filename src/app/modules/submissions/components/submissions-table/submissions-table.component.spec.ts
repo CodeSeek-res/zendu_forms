@@ -1,22 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MockBuilder, MockInstance, MockRender } from 'ng-mocks';
+import { SubmissionsModule } from '../../submissions.module';
+import { SearchData, SubmissionsServices } from '../../services/submissions.services';
+import { BehaviorSubject } from 'rxjs';
 import { SubmissionsTableComponent } from './submissions-table.component';
+import { SearchByNamePipe } from '../../../../shared/pipes/search-by-string.pipe';
 
 describe('SubmissionsTableComponent', () => {
-  let component: SubmissionsTableComponent;
-  let fixture: ComponentFixture<SubmissionsTableComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [SubmissionsTableComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(SubmissionsTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    return MockBuilder([SubmissionsTableComponent], [SubmissionsModule]).mock(
+      SearchByNamePipe,
+      (value) => `mock:${value}`
+    );
   });
+  MockInstance(SubmissionsServices, 'dataFromForm', new BehaviorSubject<SearchData>(null));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should render', () => {
+    expect(() => MockRender(SubmissionsTableComponent)).not.toThrow();
   });
 });

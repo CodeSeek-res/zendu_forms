@@ -5,32 +5,6 @@
 
   &__header {
 
-    &_title {
-      font-size: 32px;
-      font-weight: 500;
-    }
-
-    &_actions {
-      flex: 100px;
-      display: flex;
-      flex-direction: row;
-
-      &_filter {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex: 1 2 auto;
-
-        &__search {
-          width: 335px;
-
-          &_prefix-btn{
-            color: #0000006b;
-          }
-        }
-      }
-    }
-
     .action {
       padding: 5px 0;
       display: flex;
@@ -53,6 +27,32 @@
           top: 7px;
         }
       }
+    }
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 500;
+  }
+
+  &__actions {
+    flex: 100px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 2 auto;
+  }
+
+  &__search {
+    width: 335px;
+
+    &_prefix-button{
+      color: #0000006b;
     }
   }
 }

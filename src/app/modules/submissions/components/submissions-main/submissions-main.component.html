@@ -1,12 +1,12 @@
 <div class="wrapper">
   <div class="wrapper__header">
-    <h1 class="wrapper__header_title">Submissions</h1>
+    <h1 class="wrapper__title">Submissions</h1>
 
-    <div class="wrapper__header_actions">
-      <form [formGroup]="filterForms" class="wrapper__header_actions_filter">
-        <mat-form-field class="filter__search" appearance="outline">
+    <div class="wrapper__actions">
+      <form [formGroup]="filterForms" class="wrapper__filter">
+        <mat-form-field class="wrapper__search" appearance="outline">
           <input matInput placeholder="Search.." formControlName="searchField" />
-          <button class="filter__search_prefix-btn" mat-button matPrefix mat-icon-button>
+          <button class="wrapper__search_prefix-button" mat-button matPrefix mat-icon-button>
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
