@@ -3,6 +3,8 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SubmissionsServices } from '../../services/submissions.services';
 import { ActivatedRoute, Router } from '@angular/router';
+import FileSaver from 'file-saver';
+import { ELEMENT_DATA } from '../submissions-table/submissions-table.component';
 
 interface Select {
   value: string;
@@ -15,6 +17,7 @@ interface Select {
   styleUrls: ['./submissions-main.component.scss'],
 })
 export class SubmissionsMainComponent implements OnInit {
+  private dataFromTable = ELEMENT_DATA;
   public filterForms = new FormGroup({
     searchField: new FormControl<string>(''),
     selectStatus: new FormControl<string>(''),
@@ -29,6 +32,7 @@ export class SubmissionsMainComponent implements OnInit {
   ];
 
   public selectedActiveButtonNavigate: string | undefined = '';
+  public saveFile = FileSaver.saveAs;
 
   constructor(
     private readonly router: Router,
@@ -50,9 +54,27 @@ export class SubmissionsMainComponent implements OnInit {
     });
   }
 
-  public exportFile(file): void {
-    // TODO: Send file on back-end
-    console.log(file.target.files[0]);
+  public exportFile(): void {
+    const nameFile = `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`;
+    this.saveFile(this.createCsvFile(), `${nameFile}.csv`);
+  }
+
+  private createCsvFile(): Blob {
+    return new Blob([`${SubmissionsMainComponent.createHeadersForCsv()}\n${this.creteDataForCsv().join('\n')}`], {
+      type: 'text/csv;charset=utf-8',
+    });
+  }
+
+  private static createHeadersForCsv(): string[] {
+    return ['Task', 'Status', 'From', 'To', 'Customer Address', 'Due Date', 'Lat', 'Lng'];
+  }
+
+  public creteDataForCsv(): string[][] {
+    return this.dataFromTable.map((item) => {
+      const res: string[] = Object.values(item);
+      res.shift();
+      return res;
+    });
   }
 
   public redirect(event: MatButtonToggleChange): void {

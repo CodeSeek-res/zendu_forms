@@ -51,8 +51,7 @@
         </div>
 
         <div class="import-button">
-          <input hidden #file type="file" accept=".csv" (change)="exportFile($event)" />
-          <a (click)="file.click()">
+          <a (click)="exportFile()">
             <mat-icon>insert_drive_file</mat-icon>
             Export
           </a>

@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ELEMENT_DATA, Status, TableElements } from '../submissions-table/submissions-table.component';
 import { DataForm, SubmissionsServices } from '../../services/submissions.services';
 import { Subject, takeUntil } from 'rxjs';
-import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-submissions-map',
@@ -10,8 +9,6 @@ import { GoogleMap } from '@angular/google-maps';
   styleUrls: ['./submissions-map.component.scss'],
 })
 export class SubmissionsMapComponent implements OnInit, OnDestroy {
-  @ViewChild('myGoogleMap', { static: false })
-  map!: GoogleMap;
   public center!: google.maps.LatLngLiteral;
   public markers: google.maps.LatLngLiteral[] = [];
   public zoom = 14;
