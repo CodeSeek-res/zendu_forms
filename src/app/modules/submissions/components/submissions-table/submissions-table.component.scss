@@ -20,19 +20,6 @@
           height: 20px !important;
         }
       }
-
-      .status{
-        border-width: 1px;
-        border-radius: 5px;
-        border-style: solid;
-        padding: 5px 10px;
-      }
-
-      .status:before {
-        content: '• ';
-        font-size: x-large;
-        vertical-align: middle;
-      }
     }
   }
 
@@ -42,6 +29,19 @@
     align-items: center;
     padding-top: 34px;
   }
+}
+
+.status{
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px 10px;
+}
+
+.status:before {
+  content: '• ';
+  font-size: x-large;
+  vertical-align: middle;
 }
 
 .red-status {
