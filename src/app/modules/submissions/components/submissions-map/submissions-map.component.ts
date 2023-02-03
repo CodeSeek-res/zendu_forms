@@ -18,6 +18,7 @@ export class SubmissionsMapComponent implements OnInit, OnDestroy {
   public searchValue: SearchData;
   private destroy$ = new Subject();
 
+  public activeCard: number;
   constructor(private readonly submissionsServices: SubmissionsServices) {}
 
   public ngOnInit(): void {
@@ -45,10 +46,8 @@ export class SubmissionsMapComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public setMarker(card: TableElements): void {
-    console.log();
-    document.getElementsByClassName('active').item(0).classList.remove('active');
-    document.getElementsByClassName('card').item(this.cardItem.indexOf(card)).classList.add('active');
+  public setMarker(card: TableElements, cardIndex: number): void {
+    this.activeCard = cardIndex;
     this.center = {
       lat: card.lat,
       lng: card.lng,

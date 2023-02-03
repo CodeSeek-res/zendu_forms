@@ -5,21 +5,21 @@ import { SearchData } from '../../modules/submissions/services/submissions.servi
 @Pipe({ name: 'searchByName' })
 export class SearchByNamePipe implements PipeTransform {
   public transform(data: TableElements[], searchData: SearchData): TableElements[] {
-    const searchField = searchData?.searchField ? searchData.searchField : null;
-    const selectStatus = searchData?.selectStatus ? searchData.selectStatus : null;
-    const date = searchData?.datePicker ? searchData.datePicker : null;
+    const searchField = searchData?.searchField;
+    const selectStatus = searchData?.selectStatus;
+    const date = searchData?.datePicker;
 
     if (searchField || selectStatus || date) {
       return data.filter(
         (user) =>
-          JSON.stringify(user)
-            .toLowerCase()
-            .includes(searchField ? searchField.toLowerCase().trim() : null) ||
-          user.status.toLowerCase().includes(selectStatus ? selectStatus.toLowerCase().trim() : null) ||
-          `${new Date(date).getDay()}-${new Date(date).getDate()}-${new Date(date).getFullYear()}` ===
-            `${new Date(user.dueDate).getDay()}-${new Date(user.dueDate).getDate()}-${new Date(
-              user.dueDate
-            ).getFullYear()}`
+          JSON.stringify(user).toLowerCase().includes(searchField.toLowerCase().trim()) &&
+          user.status.toLowerCase().includes(selectStatus.toLowerCase().trim()) &&
+          (date
+            ? `${new Date(date).getDate()}-${new Date(date).getMonth()}-${new Date(date).getFullYear()}` ===
+              `${new Date(user.dueDate).getDate()}-${new Date(user.dueDate).getMonth()}-${new Date(
+                user.dueDate
+              ).getFullYear()}`
+            : true)
       );
     } else {
       return data;

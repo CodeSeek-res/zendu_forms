@@ -1481,7 +1481,7 @@ export class SubmissionsTableComponent implements OnInit, OnDestroy {
 
   public capacityFromTable(): string {
     return `${this.pageSize * this.pageIndex - this.pageSize + 1}-${this.pageSize * this.pageIndex} of ${
-      this.dataSource.length
+      this.dataSourceCopy.length
     } submissions`;
   }
 }

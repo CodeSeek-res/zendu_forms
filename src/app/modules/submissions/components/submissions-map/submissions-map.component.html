@@ -1,13 +1,14 @@
 <div class="wrapper">
   <div class="wrapper__cards">
     <mat-card
-      class="wrapper__cards_cards-item"
-      *ngFor="let card of cardItem | searchByName : searchValue"
-      (click)="setMarker(card)"
+      class="wrapper__cards-item"
+      *ngFor="let card of cardItem | searchByName : searchValue; let i = index"
+      [class.active]="i === activeCard"
+      (click)="setMarker(card, i)"
     >
       <mat-card-content>
-        <div class="wrapper__cards_cards-item_header">
-          <span class="wrapper__cards_cards-item_header_title">{{ card.task }}</span>
+        <div class="wrapper__header">
+          <span class="wrapper__header_title">{{ card.task }}</span>
           <span
             class="status"
             [ngClass]="{

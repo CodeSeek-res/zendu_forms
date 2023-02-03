@@ -17,11 +17,4 @@ describe('SubmissionsMainComponent', () => {
   it('should render', () => {
     expect(() => MockRender(SubmissionsMainComponent)).not.toThrow();
   });
-
-  it('should exportFile func', () => {
-    const fixture = MockRender(SubmissionsMainComponent);
-    let FileSaver;
-    const saveFile = FileSaver.saveAs;
-    fixture.point.componentInstance.exportFile();
-  });
 });
