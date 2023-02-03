@@ -30,7 +30,7 @@ export const ELEMENT_DATA: TableElements[] = [
     from: 'asdasda@gmail.com',
     to: 'asdasdasdad@mail.com',
     customerAddress: 'adasdasdas',
-    dueDate: new Date(),
+    dueDate: new Date(2023, 1, 1),
     lat: 49.829037425805936,
     lng: 24.008831696405327,
   },

@@ -1,22 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SubmissionsMainComponent } from './submissions-main.component';
+import { MockBuilder, MockInstance, MockRender } from 'ng-mocks';
+import { SubmissionsModule } from '../../submissions.module';
 
 describe('SubmissionsMainComponent', () => {
-  let component: SubmissionsMainComponent;
-  let fixture: ComponentFixture<SubmissionsMainComponent>;
+  beforeEach(MockInstance.remember);
+  afterEach(MockInstance.restore);
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [SubmissionsMainComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(SubmissionsMainComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    beforeEach(() => {
+      return MockBuilder(SubmissionsMainComponent, SubmissionsModule);
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should render', () => {
+    expect(() => MockRender(SubmissionsMainComponent)).not.toThrow();
   });
 });
