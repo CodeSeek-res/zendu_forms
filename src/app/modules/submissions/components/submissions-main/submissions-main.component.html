@@ -1,0 +1,65 @@
+<div class="wrapper">
+  <div class="wrapper__header">
+    <h1 class="wrapper__title">Submissions</h1>
+
+    <div class="wrapper__actions">
+      <form [formGroup]="filterForms" class="wrapper__filter">
+        <mat-form-field class="wrapper__search" appearance="outline">
+          <input matInput placeholder="Search.." formControlName="searchField" />
+          <button class="wrapper__search_prefix-button" mat-button matPrefix mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Select Form</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let form of forms" [value]="form.value">
+              {{ form.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Select Status</mat-label>
+          <mat-select formControlName="selectStatus">
+            <mat-option *ngFor="let status of statuses" [value]="status.value">
+              {{ status.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="picker" formControlName="datePicker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </form>
+
+      <div class="action">
+        <div>
+          <mat-button-toggle-group
+            (change)="redirect($event)"
+            [(value)]="selectedActiveButtonNavigate"
+            class="action__button-toggle"
+            name="fontStyle"
+            aria-label="Font Style"
+          >
+            <mat-button-toggle value="map">Map</mat-button-toggle>
+            <mat-button-toggle value="table">List</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+        <div class="action__import-button">
+          <a (click)="exportFile()">
+            <mat-icon>insert_drive_file</mat-icon>
+            Export
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

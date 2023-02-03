@@ -1,0 +1,84 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+
+  &__cards {
+    flex: 1 0;
+  }
+
+  &__cards-item {
+    max-width: 400px;
+    margin-bottom: 8px;
+
+
+    ::ng-deep .mat-list-item {
+      height: 25px;
+
+      .list-title {
+        font-weight: 500;
+        font-size: 16px;
+        color: #B8B9BC;
+      }
+
+      .list-item {
+        font-size: 16px;
+      }
+
+
+      .mat-list-item-content {
+        padding: 0 !important;
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &_title {
+      font-weight: 700;
+      font-size: 18px;
+    }
+  }
+
+  &__map {
+    flex: 2 0;
+    height: 603px;
+    position: sticky;
+    top: 20px;
+
+  }
+}
+
+.status{
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px 10px;
+}
+
+.status:before {
+  content: '• ';
+  font-size: x-large;
+  vertical-align: middle;
+}
+
+.red-status {
+  color: #FF3D00;
+  background-color: #FF3D0038;
+}
+
+.green-status {
+  color: #53D86A;
+  background-color: #53d86a38;
+}
+
+.gray-status {
+  color: #B8B9BC;
+  background-color: #B8B9BC38;
+}
+
+.active {
+  background-color: rgb(219 219 219 / 35%);
+}

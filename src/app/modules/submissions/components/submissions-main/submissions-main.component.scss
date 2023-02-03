@@ -1,0 +1,58 @@
+.wrapper {
+  padding: 25px 40px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+
+    .action {
+      padding: 5px 0;
+      display: flex;
+      justify-content: end;
+      flex: 3 0 auto;
+
+      &__button-toggle {
+        .mat-button-toggle-checked  {
+          background-color: #2188d9;
+          color: white;
+        }
+      }
+
+      &__import-button {
+        cursor: pointer;
+        color: #2188D9;
+        padding: 5px 23px;
+        mat-icon {
+          position: relative;
+          top: 7px;
+        }
+      }
+    }
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 500;
+  }
+
+  &__actions {
+    flex: 100px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 2 auto;
+  }
+
+  &__search {
+    width: 335px;
+
+    &_prefix-button{
+      color: #0000006b;
+    }
+  }
+}

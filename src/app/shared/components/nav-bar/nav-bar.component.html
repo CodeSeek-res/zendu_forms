@@ -1,0 +1,44 @@
+<mat-toolbar color="primary" class="nav-bar">
+  <span class="nav-bar__title">ZenduForms</span>
+  <mat-nav-list class="nav-bar__wrapper" role="navigation">
+    <a mat-list-item class="nav-bar__wrapper__link" [routerLink]="['']">
+      <mat-icon fontIcon="toc"></mat-icon>
+      <span *ngIf="!hideTitles">Forms</span>
+    </a>
+
+    <a mat-list-item class="nav-bar__wrapper__link" [routerLink]="['']">
+      <mat-icon fontIcon="group"></mat-icon>
+      <span *ngIf="!hideTitles">Customers</span>
+    </a>
+
+    <a mat-list-item class="nav-bar__wrapper__link" [routerLink]="['/submissions']" routerLinkActive="active">
+      <mat-icon fontIcon="graphic_eq"></mat-icon>
+      <span *ngIf="!hideTitles">Submissions</span>
+    </a>
+
+    <a mat-list-item class="nav-bar__wrapper__link" [routerLink]="['']">
+      <mat-icon fontIcon="history"></mat-icon>
+      <span *ngIf="!hideTitles">History</span>
+    </a>
+
+    <a mat-list-item class="nav-bar__wrapper__link" [routerLink]="['']">
+      <mat-icon fontIcon="insert_chart"></mat-icon>
+      <span *ngIf="!hideTitles">Reports</span>
+    </a>
+
+    <a mat-list-item class="nav-bar__wrapper__link" [routerLink]="['']">
+      <mat-icon fontIcon="insert_chart"></mat-icon>
+      <span *ngIf="!hideTitles">Workflow</span>
+    </a>
+  </mat-nav-list>
+
+  <mat-nav-list class="nav-bar__icon-block">
+    <a mat-list-item class="nav-bar__icon-block__icon" [routerLink]="['']">
+      <mat-icon fontIcon="notifications"></mat-icon>
+    </a>
+
+    <a mat-list-item class="nav-bar__icon-block__icon" [routerLinkActive]="['']">
+      <mat-icon fontIcon="logout"></mat-icon>
+    </a>
+  </mat-nav-list>
+</mat-toolbar>

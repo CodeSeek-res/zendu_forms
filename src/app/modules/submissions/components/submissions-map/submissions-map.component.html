@@ -1,0 +1,45 @@
+<div class="wrapper">
+  <div class="wrapper__cards">
+    <mat-card
+      class="wrapper__cards-item"
+      *ngFor="let card of cardItem | searchByName : searchValue; let i = index"
+      [class.active]="i === activeCard"
+      (click)="setMarker(card, i)"
+    >
+      <mat-card-content>
+        <div class="wrapper__header">
+          <span class="wrapper__header_title">{{ card.task }}</span>
+          <span
+            class="status"
+            [ngClass]="{
+              'red-status': card.status === statusEnum.UNCOMPLETE,
+              'green-status': card.status === statusEnum.LOW,
+              'gray-status': card.status === statusEnum.UNASSIGNED
+            }"
+          >
+            <span>{{ card.status }}</span>
+          </span>
+        </div>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <p class="list-title">From:&nbsp;</p>
+            <p class="list-item">{{ card.from }}</p>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <p class="list-title">To:&nbsp;</p>
+            <p class="list-item">{{ card.to }}</p>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <p class="list-title">Due Date:&nbsp;</p>
+            <p class="list-item">{{ card.dueDate | date : 'MMMM d' }}</p>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="wrapper__map">
+    <google-map [width]="'100%'" [height]="'100%'" [center]="center" [zoom]="zoom">
+      <map-marker *ngFor="let marker of markers" [position]="marker"></map-marker>
+    </google-map>
+  </div>
+</div>
