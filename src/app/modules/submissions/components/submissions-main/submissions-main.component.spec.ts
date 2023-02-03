@@ -1,18 +1,27 @@
 import { SubmissionsMainComponent } from './submissions-main.component';
 import { MockBuilder, MockInstance, MockRender } from 'ng-mocks';
 import { SubmissionsModule } from '../../submissions.module';
+import { ActivatedRoute } from '@angular/router';
 
 describe('SubmissionsMainComponent', () => {
-  beforeEach(MockInstance.remember);
-  afterEach(MockInstance.restore);
-
-  beforeEach(async () => {
-    beforeEach(() => {
-      return MockBuilder(SubmissionsMainComponent, SubmissionsModule);
+  beforeEach(() => {
+    return MockBuilder([SubmissionsMainComponent], [SubmissionsModule]).provide({
+      provide: ActivatedRoute,
+      useValue: {
+        snapshot: { firstChild: { routeConfig: { path: 'map' } } },
+      },
     });
   });
+  MockInstance(ActivatedRoute, 'snapshot', jest.fn(), 'get');
 
   it('should render', () => {
     expect(() => MockRender(SubmissionsMainComponent)).not.toThrow();
+  });
+
+  it('should exportFile func', () => {
+    const fixture = MockRender(SubmissionsMainComponent);
+    let FileSaver;
+    const saveFile = FileSaver.saveAs;
+    fixture.point.componentInstance.exportFile();
   });
 });

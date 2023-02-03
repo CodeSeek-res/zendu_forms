@@ -1,9 +1,13 @@
 <div class="wrapper">
   <div class="wrapper__cards">
-    <mat-card class="card" *ngFor="let card of cardItem | searchByName : searchValue" (click)="setMarker(card)">
+    <mat-card
+      class="wrapper__cards_cards-item"
+      *ngFor="let card of cardItem | searchByName : searchValue"
+      (click)="setMarker(card)"
+    >
       <mat-card-content>
-        <div class="header">
-          <span class="title">{{ card.task }}</span>
+        <div class="wrapper__cards_cards-item_header">
+          <span class="wrapper__cards_cards-item_header_title">{{ card.task }}</span>
           <span
             class="status"
             [ngClass]="{
@@ -18,15 +22,15 @@
         <mat-list role="list">
           <mat-list-item role="listitem">
             <p class="list-title">From:&nbsp;</p>
-            <p class="list-item">{{ ' ' + card.from }}</p>
+            <p class="list-item">{{ card.from }}</p>
           </mat-list-item>
           <mat-list-item role="listitem">
             <p class="list-title">To:&nbsp;</p>
-            <p class="list-item">{{ ' ' + card.to }}</p>
+            <p class="list-item">{{ card.to }}</p>
           </mat-list-item>
           <mat-list-item role="listitem">
             <p class="list-title">Due Date:&nbsp;</p>
-            <p class="list-item">{{ ' ' + (card.dueDate | date : 'MMMM d') }}</p>
+            <p class="list-item">{{ card.dueDate | date : 'MMMM d' }}</p>
           </mat-list-item>
         </mat-list>
       </mat-card-content>

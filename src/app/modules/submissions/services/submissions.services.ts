@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-export interface DataForm {
+export interface SearchData {
   searchField: string | undefined;
   selectStatus: string | undefined;
   datePicker: Date | undefined;
@@ -11,5 +11,5 @@ export interface DataForm {
   providedIn: 'root',
 })
 export class SubmissionsServices {
-  public dataFromForm = new BehaviorSubject<DataForm>(null);
+  public dataFromForm = new BehaviorSubject<SearchData>(null);
 }

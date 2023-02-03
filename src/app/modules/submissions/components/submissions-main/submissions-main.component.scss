@@ -5,28 +5,28 @@
 
   &__header {
 
-    &__title {
+    &_title {
       font-size: 32px;
       font-weight: 500;
     }
 
-    &__actions {
+    &_actions {
       flex: 100px;
       display: flex;
       flex-direction: row;
-    }
 
-    .filter {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex: 1 2 auto;
+      &_filter {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1 2 auto;
 
-      &__search {
-        width: 335px;
+        &__search {
+          width: 335px;
 
-        .prefix-btn{
-          color: #0000006b;
+          &_prefix-btn{
+            color: #0000006b;
+          }
         }
       }
     }
@@ -37,14 +37,14 @@
       justify-content: end;
       flex: 3 0 auto;
 
-      .button-toggle {
+      &__button-toggle {
         .mat-button-toggle-checked  {
           background-color: #2188d9;
           color: white;
         }
       }
 
-      .import-button {
+      &__import-button {
         cursor: pointer;
         color: #2188D9;
         padding: 5px 23px;

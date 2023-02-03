@@ -5,31 +5,18 @@
   &__cards {
     flex: 1 0;
 
-    .card {
+    &_cards-item {
       max-width: 400px;
       margin-bottom: 8px;
 
-      .header {
+      &_header {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        .title{
+        &_title{
           font-weight: 700;
           font-size: 18px;
-        }
-
-        .status{
-          border-width: 1px;
-          border-radius: 5px;
-          border-style: solid;
-          padding: 5px 10px;
-        }
-
-        .status:before {
-          content: '• ';
-          font-size: x-large;
-          vertical-align: middle;
         }
       }
       ::ng-deep .mat-list-item {
@@ -62,6 +49,18 @@
   }
 }
 
+.status{
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  padding: 5px 10px;
+}
+
+.status:before {
+  content: '• ';
+  font-size: x-large;
+  vertical-align: middle;
+}
 
 .red-status {
   color: #FF3D00;
@@ -76,4 +75,8 @@
 .gray-status {
   color: #B8B9BC;
   background-color: #B8B9BC38;
+}
+
+.active {
+  background-color: rgb(219 219 219 / 35%);
 }
